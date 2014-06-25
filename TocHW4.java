@@ -1,11 +1,17 @@
-package TOC_HW4;
-
 import java.io.*;
 import java.net.*;
 import org.json.*;
 
-public class TocHW4
+public class TocHw4
 {
+		public int year,max=0,min=100000000,county=0;
+		public String Road = "1"; 
+		public int[] month = new int[20];
+		
+	public TocHw4(String r,int y){
+		year = y;
+		Road = r;
+	}
 	public static void main(String[] args) throws IOException, JSONException
 	{
 		int  year,county=1,mm=0,M,min=0,k=0,check=1,cm=1;       //交易價格+完成年份
@@ -13,8 +19,8 @@ public class TocHW4
 		int[] max = new int[10];
 		max[0]=1;
 		
-		Road[] road= new Road[2000]; 
-		Road[] comp = new Road[2000];
+		TocHw4[] road= new TocHw4[20000]; 
+		TocHw4[] comp = new TocHw4[20000];
 		try 
 		{ 
 			URL url = new URL(args[0]);
@@ -32,19 +38,19 @@ public class TocHW4
             	s = obj.getString("土地區段位置或建物區門牌");
             	year = obj.getInt("交易年月");
             	//System.out.println("i="+i);
-            	
-            	comp[i] = new Road(s.substring(0,findindex(s)),year);
+            	comp[i] = new TocHw4(s.substring(0,findindex(s)),year);
             	for(int j=1;j<i;j++){
             		//System.out.println("j="+j);
             		//System.out.println("comp[j].road="+comp[j].road);
             		//System.out.println("comp[i].road="+comp[i].road);
-            		if(comp[j].road.equals(comp[i].road)){
+            		if(comp[j].Road.equals(comp[i].Road)){
             			check=0;
             			break;
             		}             		
             	} 
-            	if(check==1 && comp[i].road.length()>1){
-            		road[k] = new Road(comp[i].road,comp[i].year);
+            	if(check==1 && comp[i].Road.length()>1){
+            		road[k] = new TocHw4(comp[i].Road,comp[i].year);
+            		
             		//System.out.println("road["+k+"].road="+road[k].road);
             		k++;
             	}
@@ -64,7 +70,7 @@ public class TocHW4
                 		continue;
             		s = s.substring(0,findindex(s));
             		year = obj.getInt("交易年月");            		
-            		if(road[i].road.equals(s)){
+            		if(road[i].Road.equals(s)){
             			for(int a=0;a<county;a++){
             				if(year == road[i].month[a]){
             					check=0;
@@ -102,7 +108,7 @@ public class TocHW4
             		if(findindex(s)==0)
                 		continue;
             		s = s.substring(0,findindex(s));
-            		if(road[max[b]].road.equals(s)){
+            		if(road[max[b]].Road.equals(s)){
             			if(road[max[b]].max<mm){
             				road[max[b]].max = mm;
             			} 
@@ -111,7 +117,7 @@ public class TocHW4
             			}
             		}
             	}
-            	System.out.println(road[max[b]].road+", 最高成交價: "+road[max[b]].max+"0, 最低成交價: "+road[max[b]].min);
+            	System.out.println(road[max[b]].Road+", 最高成交價: "+road[max[b]].max+"0, 最低成交價: "+road[max[b]].min);
             	
             }
         }   /////////////////////////      
